@@ -1,0 +1,286 @@
+/* Fuentes y colores */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    margin: 0;
+    padding: 0;
+    color: #2d3748;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 720px;
+    width: 100%;
+    background: #ffffff;
+    padding: 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Títulos */
+h1, h2 {
+    text-align: center;
+    color: #1a202c;
+    font-weight: 700;
+    margin-bottom: 25px;
+    letter-spacing: 0.05em;
+}
+
+/* Labels */
+form label {
+    display: block;
+    margin-top: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #4a5568;
+}
+
+/* Inputs */
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 14px 18px;
+    margin-top: 8px;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #2d3748;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    box-sizing: border-box;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
+    outline: none;
+}
+
+/* Contenedor y estilos para las restricciones dinámicas */
+.restriccion-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.restriccion-group label {
+    flex: 0 0 120px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.restriccion-group input {
+    flex: 1 1 auto;
+    padding: 12px 14px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid #cbd5e1;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.restriccion-group input:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
+    outline: none;
+}
+
+/* Botón eliminar pequeño tipo icono "X" */
+.btn-eliminar {
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-weight: 700;
+    font-size: 1.3rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 6px;
+    transition: color 0.3s;
+    flex-shrink: 0;
+    user-select: none;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.btn-eliminar:hover {
+    color: #e74c3c;
+}
+
+/* Botón agregar restricción */
+#btnAgregar {
+    display: block;
+    margin: 25px auto 35px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(49, 130, 206, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#btnAgregar:hover,
+#btnAgregar:focus {
+    background-color: #2b6cb0;
+    box-shadow: 0 12px 30px rgba(43, 108, 176, 0.7);
+    outline: none;
+}
+
+/* Botón submit general */
+button[type="submit"] {
+    margin-top: 40px;
+    width: 100%;
+    padding: 16px 0;
+    background-color: #27ae60;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(39, 174, 96, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:focus {
+    background-color: #1e8449;
+    box-shadow: 0 12px 30px rgba(30, 132, 73, 0.7);
+    outline: none;
+}
+
+/* Imágenes de resultado */
+img {
+    width: 100%;
+    border-radius: 14px;
+    margin-top: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Link volver */
+.volver {
+    display: block;
+    text-align: center;
+    margin-top: 35px;
+    font-weight: 700;
+    color: #3182ce;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.volver:hover,
+.volver:focus {
+    color: #2b6cb0;
+    outline: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 30px 25px;
+        border-radius: 12px;
+    }
+
+    h1, h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    form label {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 14px 0;
+    }
+
+    .restriccion-group label {
+        flex: 0 0 100px;
+    }
+}
+
+/* Texto resultado */
+.resultado-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Lista procesos */
+.procesos-lista {
+  background: #f9fafb;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border-radius: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  list-style-type: disc;
+  margin-top: 20px;
+}
+.procesos-lista li {
+  margin-bottom: 10px;
+}
+
+.procesos-container p {
+    margin-bottom: 1rem;
+}
+
+.procesos-container b {
+    color: #2b6cb0; /* azul intenso para títulos */
+}
+
+.procesos-container i {
+    color: #4a5568; /* gris para subtítulos o itálicas */
+}
+
+/* Cada paso bloque */
+.procesos-container p {
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.btn-resolver {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(49, 130, 206, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-resolver:hover {
+  background-color: #2b6cb0;
+  box-shadow: 0 12px 30px rgba(43, 108, 176, 0.7);
+}

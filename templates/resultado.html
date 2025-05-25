@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Resultado Óptimo 2D</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div class="container">
+        <h2>Resultado Óptimo</h2>
+        <p class="resultado-text">{{ resultado }}</p>
+        {% if imagen %}
+        <img src="{{ imagen }}" alt="Gráfico 2D" loading="lazy" />
+        {% endif %}
+
+        <a href="/" class="volver" aria-label="Volver al inicio">Volver</a>
+    </div>
+</body>
+</html>

@@ -639,7 +639,7 @@
   <div class="glass-container">
     <div class="header">
       <h1>Optimizador Lineal</h1>
-      <p>Herramienta completa para resolver problemas de programación lineal con visualización gráfica, método simplex</p>
+      <p>Herramienta completa para resolver problemas de programación lineal con visualización gráfica, método simplex y mensaje oculto</p>
     </div>
     
     <form method="POST" id="formularioPL">
@@ -697,6 +697,9 @@
         </button>
         <button type="submit" formaction="/simplex" class="btn btn-accent">
           <i class="fas fa-table me-2"></i> Método Simplex
+        </button>
+        <button type="button" id="btnAnalisis" class="btn btn-warning">
+          <i class="fas fa-chart-line me-2"></i> Mensaje Oculto
         </button>
         <button type="button" id="btnHelp" class="btn btn-light">
           <i class="fas fa-question-circle me-2"></i> Ayuda

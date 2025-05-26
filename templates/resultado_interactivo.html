@@ -5,98 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Visualización de Solución Óptima</title>
     
-    <!-- Estilos -->
+    <!-- Estilos y fuentes -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <style>
         :root {
             --primary-color: #4361ee;
+            --primary-light: #eef0fd;
             --secondary-color: #3f37c9;
             --accent-color: #4cc9f0;
             --light-bg: #f8f9fa;
             --dark-text: #212529;
-            --success-color: #4bb543;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --warning-color: #ffc107;
+            --gradient-primary: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7ff;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
             color: var(--dark-text);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .main-container {
             max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem;
+            margin: 3rem auto;
+            padding: 2.5rem;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient-primary);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
         }
 
         .header h1 {
             color: var(--primary-color);
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
         }
 
         .header .subtitle {
             color: #6c757d;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
         }
 
         .result-card {
             background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-md);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .result-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--gradient-primary);
         }
 
         .result-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
+        }
+
+        .result-title i {
+            font-size: 1.8rem;
+            color: var(--success-color);
         }
 
         .result-value {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--success-color);
             text-align: center;
-            padding: 1.5rem;
-            background-color: rgba(75, 181, 67, 0.1);
-            border-radius: 10px;
-            margin: 1.5rem 0;
+            padding: 2rem;
+            background-color: var(--primary-light);
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 2px dashed rgba(67, 97, 238, 0.3);
+            position: relative;
+        }
+
+        .result-value::before, .result-value::after {
+            content: "★";
+            position: absolute;
+            color: var(--warning-color);
+            font-size: 1.5rem;
+        }
+
+        .result-value::before {
+            top: -10px;
+            left: -10px;
+        }
+
+        .result-value::after {
+            bottom: -10px;
+            right: -10px;
+        }
+
+        .result-description {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.05rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
         }
 
         .visualization-container {
             background: white;
-            border-radius: 14px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2.5rem;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 3rem;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .visualization-container:hover {
+            transform: translateY(-3px);
         }
 
         .visualization-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: var(--gradient-primary);
             color: white;
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -105,80 +198,208 @@
         .visualization-header h3 {
             margin: 0;
             font-weight: 600;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
+            letter-spacing: -0.3px;
+        }
+
+        .visualization-header i {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .graph-controls {
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
         }
 
         .graph-controls button {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
-            width: 36px;
-            height: 36px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
         .graph-controls button:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
         }
 
         #grafico {
             width: 100%;
             height: 700px;
+            background: white;
         }
 
         .btn-back {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.5rem;
-            background: var(--primary-color);
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--gradient-primary);
             color: white;
             border: none;
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-back:hover {
-            background: var(--secondary-color);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-back::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-back:hover::before {
+            left: 100%;
+        }
+
+        .btn-back i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover i {
+            transform: translateX(-5px);
         }
 
         .footer {
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 4rem;
             color: #6c757d;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header, .result-card, .visualization-container, .text-center {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .result-card { animation-delay: 0.2s; }
+        .visualization-container { animation-delay: 0.4s; }
+        .text-center { animation-delay: 0.6s; }
+
+        /* Efecto de carga para el gráfico */
+        #grafico:empty::after {
+            content: "Cargando visualización...";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #6c757d;
+            font-size: 1.2rem;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="%234361ee" stroke-width="8" r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"/></circle></svg>') no-repeat center 40%;
+            background-size: 50px;
+            padding-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-container {
+                margin: 1.5rem auto;
+                padding: 1.75rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            #grafico {
+                height: 550px;
+            }
         }
 
         @media (max-width: 768px) {
             .main-container {
                 padding: 1.5rem;
+                border-radius: 12px;
             }
-
+            
+            .result-card {
+                padding: 1.75rem;
+            }
+            
             .result-value {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+                padding: 1.5rem;
+            }
+            
+            .visualization-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
                 padding: 1rem;
             }
-
+            
+            .graph-controls {
+                align-self: flex-end;
+            }
+            
             #grafico {
                 height: 450px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .result-title {
+                font-size: 1.4rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .result-value {
+                font-size: 1.6rem;
+            }
+            
+            #grafico {
+                height: 350px;
             }
         }
     </style>
@@ -186,79 +407,177 @@
 <body>
     <div class="main-container">
         <div class="header">
-            <h1><i class="fas fa-chart-line"></i> Solución de Optimización</h1>
-            <p class="subtitle">Visualización interactiva de los resultados obtenidos</p>
+            <h1>Solución de Optimización</h1>
+            <p class="subtitle">Visualización interactiva de los resultados obtenidos mediante análisis avanzado</p>
         </div>
 
         <div class="result-card">
-            <h2 class="result-title"><i class="fas fa-check-circle"></i> Resultado Óptimo</h2>
+            <h2 class="result-title"><i class="fas fa-trophy"></i> Resultado Óptimo Encontrado</h2>
             <div class="result-value">{{ resultado }}</div>
-            <p class="text-center text-muted">Este valor representa la solución óptima encontrada para el problema de optimización.</p>
+            <p class="result-description">
+                Este valor representa la solución óptima encontrada para el problema de optimización, 
+                calculada mediante algoritmos avanzados que garantizan la mejor relación costo-beneficio.
+            </p>
         </div>
 
         <div class="visualization-container">
             <div class="visualization-header">
-                <h3><i class="fas fa-project-diagram"></i> Representación Gráfica</h3>
+                <h3><i class="fas fa-project-diagram"></i> Representación Gráfica Interactiva</h3>
                 <div class="graph-controls">
-                    <button id="zoomIn" title="Acercar"><i class="fas fa-search-plus"></i></button>
-                    <button id="zoomOut" title="Alejar"><i class="fas fa-search-minus"></i></button>
-                    <button id="fullscreen" title="Pantalla completa"><i class="fas fa-expand"></i></button>
+                    <button id="zoomIn" title="Acercar" aria-label="Acercar zoom"><i class="fas fa-search-plus"></i></button>
+                    <button id="zoomOut" title="Alejar" aria-label="Alejar zoom"><i class="fas fa-search-minus"></i></button>
+                    <button id="fullscreen" title="Pantalla completa" aria-label="Pantalla completa"><i class="fas fa-expand"></i></button>
+                    <button id="download" title="Descargar gráfico" aria-label="Descargar gráfico"><i class="fas fa-download"></i></button>
                 </div>
             </div>
-            <div id="grafico">Cargando gráfico...</div>
+            <div id="grafico"></div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center mt-4">
             <a href="/" class="btn-back" aria-label="Volver al inicio">
-                <i class="fas fa-arrow-left"></i> Volver al Inicio
+                <i class="fas fa-arrow-left"></i> Volver al Panel de Control
             </a>
         </div>
 
         <div class="footer">
-            <p>Sistema de Optimización © 2025 | Todos los derechos reservados</p>
+            <p>Sistema de Optimización Avanzada © 2025 | Desarrollado con <i class="fas fa-heart" style="color: #ff4757;"></i> para soluciones inteligentes</p>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- Plotly rendering desde JSON -->
     <script>
         let plotlyChart;
+        const graphDiv = document.getElementById('grafico');
 
+        // Mostrar animación de carga
+        graphDiv.innerHTML = '';
+
+        // Cargar el gráfico
         fetch("{{ url_for('static', filename=grafico_json) }}")
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Error al cargar el gráfico');
+                return res.json();
+            })
             .then(data => {
-                Plotly.newPlot("grafico", data.data, data.layout, {
+                Plotly.newPlot(graphDiv, data.data, data.layout, {
                     responsive: true,
                     displaylogo: false,
-                    modeBarButtonsToRemove: ['select2d', 'lasso2d']
-                }).then(chart => plotlyChart = chart);
+                    scrollZoom: true,
+                    modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+                    modeBarButtonsToAdd: [
+                        {
+                            name: 'Descargar como PNG',
+                            icon: Plotly.Icons.camera,
+                            click: function(gd) {
+                                Plotly.downloadImage(gd, {
+                                    format: 'png',
+                                    width: 1200,
+                                    height: 700,
+                                    filename: 'grafico-optimizacion'
+                                });
+                            }
+                        }
+                    ]
+                }).then(chart => {
+                    plotlyChart = chart;
+                    
+                    // Añadir animación de éxito
+                    graphDiv.classList.add('loaded');
+                });
+            })
+            .catch(error => {
+                graphDiv.innerHTML = `
+                    <div class="alert alert-danger d-flex align-items-center" role="alert" style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <i class="fas fa-exclamation-triangle fa-3x mb-3" style="color: #dc3545;"></i>
+                        <h4 class="alert-heading">Error al cargar el gráfico</h4>
+                        <p>${error.message}</p>
+                        <button class="btn btn-primary mt-2" onclick="window.location.reload()">
+                            <i class="fas fa-sync-alt"></i> Intentar nuevamente
+                        </button>
+                    </div>
+                `;
             });
 
-        // Botones de control
-        document.getElementById('zoomIn').onclick = () => {
-            if (plotlyChart) Plotly.relayout(plotlyChart, {
-                'xaxis.range[0]': null,
-                'xaxis.range[1]': null,
-                'yaxis.range[0]': null,
-                'yaxis.range[1]': null,
-                'xaxis.autorange': false,
-                'yaxis.autorange': false
-            });
-            Plotly.zoom(plotlyChart, 1.2);
-        };
+        // Botones de control mejorados
+        document.getElementById('zoomIn').addEventListener('click', () => {
+            if (plotlyChart) {
+                Plotly.relayout(plotlyChart, {
+                    'xaxis.range[0]': null,
+                    'xaxis.range[1]': null,
+                    'yaxis.range[0]': null,
+                    'yaxis.range[1]': null,
+                    'xaxis.autorange': false,
+                    'yaxis.autorange': false
+                });
+                Plotly.zoom(plotlyChart, 1.2);
+                
+                // Feedback visual
+                const btn = document.getElementById('zoomIn');
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-search-plus"></i>';
+                }, 800);
+            }
+        });
 
-        document.getElementById('zoomOut').onclick = () => {
-            if (plotlyChart) Plotly.zoom(plotlyChart, 0.8);
-        };
+        document.getElementById('zoomOut').addEventListener('click', () => {
+            if (plotlyChart) {
+                Plotly.zoom(plotlyChart, 0.8);
+                
+                // Feedback visual
+                const btn = document.getElementById('zoomOut');
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-search-minus"></i>';
+                }, 800);
+            }
+        });
 
-        document.getElementById('fullscreen').onclick = () => {
-            const el = document.getElementById('grafico');
-            if (el.requestFullscreen) el.requestFullscreen();
-            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-            else if (el.msRequestFullscreen) el.msRequestFullscreen();
-        };
+        document.getElementById('fullscreen').addEventListener('click', () => {
+            if (graphDiv.requestFullscreen) {
+                graphDiv.requestFullscreen();
+            } else if (graphDiv.webkitRequestFullscreen) {
+                graphDiv.webkitRequestFullscreen();
+            } else if (graphDiv.msRequestFullscreen) {
+                graphDiv.msRequestFullscreen();
+            }
+            
+            // Feedback visual
+            const btn = document.getElementById('fullscreen');
+            btn.innerHTML = '<i class="fas fa-compress"></i>';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-expand"></i>';
+            }, 800);
+        });
+
+        document.getElementById('download').addEventListener('click', () => {
+            if (plotlyChart) {
+                Plotly.downloadImage(plotlyChart, {
+                    format: 'png',
+                    width: 1200,
+                    height: 700,
+                    filename: 'grafico-optimizacion'
+                });
+                
+                // Feedback visual
+                const btn = document.getElementById('download');
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-download"></i>';
+                }, 1000);
+            }
+        });
+
+        // Escuchar cambios de tamaño para redimensionar el gráfico
+        window.addEventListener('resize', () => {
+            if (plotlyChart) {
+                Plotly.Plots.resize(plotlyChart);
+            }
+        });
     </script>
 </body>
 </html>

@@ -773,7 +773,7 @@
             <li><strong>Método Simplex</strong> para problemas con más variables</li>
             <li><strong>Análisis de sensibilidad</strong> para evaluar cómo cambia la solución con variaciones en los parámetros</li>
           </ul>
-          <p>Para problemas con más de 4 variables, solo estará disponible el método Simplex.</p>
+          <p>Para problemas con más de 3 variables, solo estará disponible el método Simplex.</p>
         </div>
       </div>
       
@@ -923,13 +923,6 @@
           });
           zBadge.classList.remove('d-none');
           wBadge.classList.add('d-none');
-        } else {
-          objetivoInput.placeholder = 'Ej: 6x + 4y + 3z + 2w';
-          document.querySelectorAll('.restriction-input').forEach(input => {
-            input.placeholder = 'Ej: 2x + y + z + w <= 15';
-          });
-          zBadge.classList.remove('d-none');
-          wBadge.classList.remove('d-none');
         }
       }
 
@@ -991,7 +984,6 @@
         const varsRequeridas = [];
         if (numVars >= '2') varsRequeridas.push('x', 'y');
         if (numVars >= '3') varsRequeridas.push('z');
-        if (numVars >= '4') varsRequeridas.push('w');
         
         for (const v of varsRequeridas) {
           if (!objetivo.includes(v)) {

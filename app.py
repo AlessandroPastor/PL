@@ -8,6 +8,8 @@ import plotly.graph_objs as go
 import plotly.io as pio
 from collections import defaultdict
 from plotly.subplots import make_subplots
+import sys
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join('static')
@@ -658,4 +660,6 @@ def resolver():
         return f"Error procesando la solicitud: {e}", 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Render asigna PORT automáticamente
+    app.run(host='0.0.0.0', port=port)
+

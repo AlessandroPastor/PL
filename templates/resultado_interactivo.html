@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Visualización de Solución Óptima</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
     <style>
         :root {
             --primary-color: #4361ee;
@@ -15,14 +19,14 @@
             --dark-text: #212529;
             --success-color: #4bb543;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7ff;
             color: var(--dark-text);
             line-height: 1.6;
         }
-        
+
         .main-container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -31,25 +35,25 @@
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
             padding-bottom: 1.5rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
-        
+
         .header h1 {
             color: var(--primary-color);
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
-        
+
         .header .subtitle {
             color: #6c757d;
             font-size: 1.1rem;
         }
-        
+
         .result-card {
             background: white;
             border-radius: 12px;
@@ -58,7 +62,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             border-left: 4px solid var(--primary-color);
         }
-        
+
         .result-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -68,11 +72,7 @@
             align-items: center;
             gap: 0.8rem;
         }
-        
-        .result-title i {
-            font-size: 1.8rem;
-        }
-        
+
         .result-value {
             font-size: 1.8rem;
             font-weight: 700;
@@ -83,7 +83,7 @@
             border-radius: 10px;
             margin: 1.5rem 0;
         }
-        
+
         .visualization-container {
             background: white;
             border-radius: 14px;
@@ -92,7 +92,7 @@
             margin-bottom: 2.5rem;
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
-        
+
         .visualization-header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
@@ -101,7 +101,7 @@
             align-items: center;
             justify-content: space-between;
         }
-        
+
         .visualization-header h3 {
             margin: 0;
             font-weight: 600;
@@ -109,16 +109,12 @@
             align-items: center;
             gap: 0.8rem;
         }
-        
-        .visualization-header i {
-            font-size: 1.3rem;
-        }
-        
+
         .graph-controls {
             display: flex;
             gap: 0.8rem;
         }
-        
+
         .graph-controls button {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -132,18 +128,16 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .graph-controls button:hover {
             background: rgba(255, 255, 255, 0.3);
         }
-        
-        iframe {
+
+        #grafico {
             width: 100%;
-            height: 600px;
-            border: none;
-            display: block;
+            height: 700px;
         }
-        
+
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -158,33 +152,33 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
         }
-        
+
         .btn-back:hover {
             background: var(--secondary-color);
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
         }
-        
+
         .footer {
             text-align: center;
             margin-top: 3rem;
             color: #6c757d;
             font-size: 0.9rem;
         }
-        
+
         @media (max-width: 768px) {
             .main-container {
                 padding: 1.5rem;
             }
-            
+
             .result-value {
                 font-size: 1.5rem;
                 padding: 1rem;
             }
-            
-            iframe {
-                height: 400px;
+
+            #grafico {
+                height: 450px;
             }
         }
     </style>
@@ -195,49 +189,76 @@
             <h1><i class="fas fa-chart-line"></i> Solución de Optimización</h1>
             <p class="subtitle">Visualización interactiva de los resultados obtenidos</p>
         </div>
-        
+
         <div class="result-card">
             <h2 class="result-title"><i class="fas fa-check-circle"></i> Resultado Óptimo</h2>
             <div class="result-value">{{ resultado }}</div>
             <p class="text-center text-muted">Este valor representa la solución óptima encontrada para el problema de optimización.</p>
         </div>
-        
+
         <div class="visualization-container">
             <div class="visualization-header">
                 <h3><i class="fas fa-project-diagram"></i> Representación Gráfica</h3>
                 <div class="graph-controls">
-                    <button title="Acercar" aria-label="Zoom in"><i class="fas fa-search-plus"></i></button>
-                    <button title="Alejar" aria-label="Zoom out"><i class="fas fa-search-minus"></i></button>
-                    <button title="Pantalla completa" aria-label="Fullscreen"><i class="fas fa-expand"></i></button>
+                    <button id="zoomIn" title="Acercar"><i class="fas fa-search-plus"></i></button>
+                    <button id="zoomOut" title="Alejar"><i class="fas fa-search-minus"></i></button>
+                    <button id="fullscreen" title="Pantalla completa"><i class="fas fa-expand"></i></button>
                 </div>
             </div>
-            <iframe src="{{ url_for('static', filename=grafico_html) }}" title="Visualización gráfica de la solución óptima"></iframe>
+            <div id="grafico">Cargando gráfico...</div>
         </div>
-        
+
         <div class="text-center">
             <a href="/" class="btn-back" aria-label="Volver al inicio">
                 <i class="fas fa-arrow-left"></i> Volver al Inicio
             </a>
         </div>
-        
+
         <div class="footer">
-            <p>Sistema de Optimización © 2023 | Todos los derechos reservados</p>
+            <p>Sistema de Optimización © 2025 | Todos los derechos reservados</p>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plotly rendering desde JSON -->
     <script>
-        // Aquí puedes añadir interactividad para los controles del gráfico
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ejemplo de funcionalidad para los botones
-            const buttons = document.querySelectorAll('.graph-controls button');
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Aquí iría la lógica para interactuar con el iframe
-                    console.log('Botón clickeado:', this.querySelector('i').className);
-                });
+        let plotlyChart;
+
+        fetch("{{ url_for('static', filename=grafico_json) }}")
+            .then(res => res.json())
+            .then(data => {
+                Plotly.newPlot("grafico", data.data, data.layout, {
+                    responsive: true,
+                    displaylogo: false,
+                    modeBarButtonsToRemove: ['select2d', 'lasso2d']
+                }).then(chart => plotlyChart = chart);
             });
-        });
+
+        // Botones de control
+        document.getElementById('zoomIn').onclick = () => {
+            if (plotlyChart) Plotly.relayout(plotlyChart, {
+                'xaxis.range[0]': null,
+                'xaxis.range[1]': null,
+                'yaxis.range[0]': null,
+                'yaxis.range[1]': null,
+                'xaxis.autorange': false,
+                'yaxis.autorange': false
+            });
+            Plotly.zoom(plotlyChart, 1.2);
+        };
+
+        document.getElementById('zoomOut').onclick = () => {
+            if (plotlyChart) Plotly.zoom(plotlyChart, 0.8);
+        };
+
+        document.getElementById('fullscreen').onclick = () => {
+            const el = document.getElementById('grafico');
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        };
     </script>
 </body>
 </html>

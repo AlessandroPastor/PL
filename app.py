@@ -368,11 +368,11 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
             font=dict(size=13, color=colors['texto'], family="Arial")
         )
     
-    # Guardar el gráfico interactivo
-    output_path = os.path.join(app.config['UPLOAD_FOLDER'], 'grafico2d_interactivo.html')
-    pio.write_html(fig, file=output_path, auto_open=False, include_plotlyjs='cdn')
-    
-    return 'grafico2d_interactivo.html'
+    # Guardar como JSON también
+        json_path = os.path.join(app.config['UPLOAD_FOLDER'], 'grafico2d.json')
+        pio.write_json(fig, file=json_path, pretty=True)
+        return 'grafico2d_interactivo.html', 'grafico2d.json'
+
 
 
 class SimplexSolver:
@@ -652,9 +652,11 @@ def resolver():
 
         vertices = calcular_vertices_2d(np.array(A_ub), np.array(b_ub))
 
-        grafico_html = graficar_2d_plotly(np.array(A_ub), np.array(b_ub), vertices, res, maximizar)
+        grafico_html, grafico_json = graficar_2d_plotly(np.array(A_ub), np.array(b_ub), vertices, res, maximizar)
 
-        return render_template('resultado_interactivo.html', resultado=resultado, grafico_html=grafico_html, procesos="")
+        return render_template('resultado_interactivo.html', resultado=resultado,
+                       grafico_html=grafico_html, grafico_json=grafico_json, procesos="")
+
 
     except Exception as e:
         return f"Error procesando la solicitud: {e}", 500

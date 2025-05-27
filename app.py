@@ -299,32 +299,33 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
         plot_bgcolor=colors['fondo'],
         xaxis=dict(
             title=dict(
-            text='<b>Variable x₁</b>',
-            font=dict(size=16, color=colors['texto'], family="Arial")
-            ),           
-            range=x_range,
-            showgrid=True,
-            gridcolor=colors['grid'],
-            zeroline=True,
-            zerolinecolor=colors['ejes'],
-            linecolor=colors['ejes'],
-            mirror=True,
-            ticks='outside',
-            tickfont=dict(size=12, color=colors['texto'], family="Arial")
+        text='<b>Variable x₁</b>',
+        font=dict(size=16, color=colors['texto'], family="Arial")
+        ),
+        range=x_range,
+        showgrid=True,
+        gridcolor=colors['grid'],
+        zeroline=True,
+        zerolinecolor=colors['ejes'],
+        linecolor=colors['ejes'],
+        mirror=True,
+        ticks='outside',
+        tickfont=dict(size=12, color=colors['texto'], family="Arial")
         ),
         yaxis=dict(
             title=dict(
-            text='<b>Variable x₂</b>',
-            font=dict(size=16, color=colors['texto'], family="Arial") ),
-            range=y_range,
-            showgrid=True,
-            gridcolor=colors['grid'],
-            zeroline=True,
-            zerolinecolor=colors['ejes'],
-            linecolor=colors['ejes'],
-            mirror=True,
-            ticks='outside',
-            tickfont=dict(size=12, color=colors['texto'], family="Arial")
+        text='<b>Variable x₂</b>',
+        font=dict(size=16, color=colors['texto'], family="Arial")
+        ),
+        range=y_range,
+        showgrid=True,
+        gridcolor=colors['grid'],
+        zeroline=True,
+        zerolinecolor=colors['ejes'],
+        linecolor=colors['ejes'],
+        mirror=True,
+        ticks='outside',
+        tickfont=dict(size=12, color=colors['texto'], family="Arial")
         ),
         legend=dict(
             orientation="h",

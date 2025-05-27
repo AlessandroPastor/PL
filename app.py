@@ -298,7 +298,10 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
         paper_bgcolor=colors['fondo'],
         plot_bgcolor=colors['fondo'],
         xaxis=dict(
-            title='<b>Variable x₁</b>',
+            title=dict(
+            text='<b>Variable x₁</b>',
+            font=dict(size=16, color=colors['texto'], family="Arial")
+            ),           
             range=x_range,
             showgrid=True,
             gridcolor=colors['grid'],
@@ -311,7 +314,9 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
             tickfont=dict(size=12, color=colors['texto'], family="Arial")
         ),
         yaxis=dict(
-            title='<b>Variable x₂</b>',
+            title=dict(
+            text='<b>Variable x₂</b>',
+            font=dict(size=16, color=colors['texto'], family="Arial") ),
             range=y_range,
             showgrid=True,
             gridcolor=colors['grid'],

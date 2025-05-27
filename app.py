@@ -310,7 +310,6 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
             linecolor=colors['ejes'],
             mirror=True,
             ticks='outside',
-            titlefont=dict(size=16, color=colors['texto'], family="Arial"),
             tickfont=dict(size=12, color=colors['texto'], family="Arial")
         ),
         yaxis=dict(
@@ -325,7 +324,6 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
             linecolor=colors['ejes'],
             mirror=True,
             ticks='outside',
-            titlefont=dict(size=16, color=colors['texto'], family="Arial"),
             tickfont=dict(size=12, color=colors['texto'], family="Arial")
         ),
         legend=dict(

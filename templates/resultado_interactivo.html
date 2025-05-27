@@ -459,7 +459,7 @@
         graphDiv.innerHTML = '';
 
         // Cargar el gráfico
-        fetch("{{ url_for('static', filename=grafico_json) }}")
+        fetch("/static/{{ grafico_json }}")
             .then(res => {
                 if (!res.ok) throw new Error('Error al cargar el gráfico');
                 return res.json();

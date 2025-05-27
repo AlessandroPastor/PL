@@ -372,11 +372,11 @@ def graficar_2d_plotly(A, b, vertices, res, maximizar, nombres_variables=None):
             font=dict(size=13, color=colors['texto'], family="Arial")
         )
     
-    # Guardar como JSON también
-        json_path = os.path.join(app.config['UPLOAD_FOLDER'], 'grafico2d.json')
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-        pio.write_json(fig, file=json_path, pretty=True)
-        return 'grafico2d_interactivo.html', 'grafico2d.json'
+    json_filename = 'grafico2d.json'
+    json_path = os.path.join('static', 'tmp', json_filename)
+    os.makedirs(os.path.dirname(json_path), exist_ok=True)
+    pio.write_json(fig, file=json_path, pretty=True)
+    return 'grafico2d_interactivo.html', f'tmp/{json_filename}'
 
 
 
